@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Cost Estimate - Custom Web Application</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #1a1a1a;
+        background-color: #f8f9fa;
+        line-height: 1.5;
+      }
+      .container {
+        max-width: 900px;
+        margin: 40px auto;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .header {
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        color: white;
+        padding: 40px 50px 30px;
+        text-align: center;
+      }
+      .header h1 {
+        margin: 0;
+        font-size: 2.1rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+      .header .subtitle {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        margin-top: 8px;
+      }
+      .content {
+        padding: 40px 50px;
+      }
+      h2 {
+        color: #1e40af;
+        font-size: 1.5rem;
+        margin: 2rem 0 1rem;
+        border-bottom: 2px solid #e5e7eb;
+        padding-bottom: 8px;
+      }
+      h3 {
+        color: #1e40af;
+        font-size: 1.25rem;
+        margin: 1.8rem 0 0.9rem;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.5rem 0;
+        font-size: 0.98rem;
+      }
+      th,
+      td {
+        padding: 14px 16px;
+        text-align: left;
+        border-bottom: 1px solid #e5e7eb;
+      }
+      th {
+        background: #f1f5f9;
+        font-weight: 600;
+        color: #1e293b;
+      }
+      .total-row {
+        font-weight: bold;
+        background: #eff6ff;
+        font-size: 1.1rem;
+      }
+      .payment-schedule {
+        background: #f8fafc;
+        padding: 20px;
+        border-radius: 6px;
+        margin: 1.5rem 0;
+      }
+      .highlight {
+        color: #1d4ed8;
+        font-weight: 600;
+      }
+      .footer {
+        background: #f1f5f9;
+        padding: 25px 50px;
+        font-size: 0.9rem;
+        color: #4b5563;
+        border-top: 1px solid #e5e7eb;
+      }
+      .meta {
+        font-size: 0.95rem;
+        color: #6b7280;
+        margin-bottom: 1.5rem;
+      }
+      .meta span {
+        font-weight: 600;
+        color: #374151;
+      }
+      ul {
+        padding-left: 1.4rem;
+        margin: 0.8rem 0;
+      }
+      li {
+        margin-bottom: 0.5rem;
+      }
+      @media print {
+        body {
+          background: white;
+        }
+        .container {
+          box-shadow: none;
+          margin: 0;
+          border: none;
+        }
+        .header {
+          padding: 30px 40px 20px;
+        }
+        .content,
+        .footer {
+          padding: 30px 40px;
+        }
+      }
+
+      /* Signature Section Styles */
+      .signature-section {
+        display: flex;
+        justify-content: space-between;
+        gap: 60px;
+        margin: 4rem 0 2rem;
+        padding-top: 2rem;
+        border-top: 2px solid #e5e7eb;
+      }
+      .signature-box {
+        flex: 1;
+      }
+      .signature-line {
+        border-bottom: 2px solid #1e3a8a;
+        height: 80px;
+        margin-bottom: 12px;
+        position: relative;
+      }
+      .signature-line::after {
+        content: "X";
+        position: absolute;
+        bottom: 5px;
+        left: 0;
+        color: #cbd5e1;
+        font-family: serif;
+        font-style: italic;
+        font-size: 1.2rem;
+      }
+      .signature-label {
+        font-size: 0.75rem;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+      }
+      .signature-name {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-top: 4px;
+      }
+      .signature-date {
+        margin-top: 20px;
+        border-bottom: 1px dashed #cbd5e1;
+        width: 150px;
+        height: 25px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Project Contract</h1>
+        <div class="subtitle">Custom Web Application</div>
+      </div>
+
+      <div class="content">
+        <div class="meta">
+          <p><span>Prepared for:</span> [Client Name / Company]</p>
+          <p><span>Prepared by:</span> Bamisile – Professional Web Developer</p>
+          <p><span>Date:</span> March 05, 2026</p>
+          <p><span>Estimate Validity:</span> march 10</p>
+          <p><span>Project Reference:</span> WebApp-2026-003</p>
+        </div>
+
+        <h2>1. Project Overview</h2>
+        <p>
+          Development of a modern, responsive
+          <strong>web application</strong> featuring secure backend, user &
+          admin functionalities, materials management, business card features,
+          legal pages, contact form, and full international multilingual support
+          (i18n with language selector).
+        </p>
+        <p>
+          The application includes <strong>10 pages</strong> in total, complete
+          backend infrastructure (database + storage), protected admin area, and
+          smooth integration — all delivered within <strong>5 days</strong> from
+          project kick-off.
+        </p>
+
+        <h3>Key Features Included</h3>
+        <ul>
+          <li>Fully responsive design (mobile-first)</li>
+          <li>
+            Multilingual support (international standard — language switcher +
+            translation-ready)
+          </li>
+          <li>Secure user authentication & role-based access control</li>
+          <li>Materials section (view / search / manage)</li>
+          <li>Business card page (dynamic display / generator)</li>
+          <li>Contact page with form & validation</li>
+          <li>Privacy Policy page</li>
+          <li>User Agreement page</li>
+          <li>User dashboard / section</li>
+          <li>Protected Admin section (dashboard + management tools)</li>
+          <li>Backend APIs, database, secure file storage</li>
+          <li>
+            Performance optimization, basic security, cross-browser testing
+          </li>
+          <li>Guaranteed delivery by march 10</li>
+        </ul>
+
+        <!-- <h2>2. Detailed Scope of Work</h2>
+
+        <h3>Frontend Development (10 Pages + Multilingual)</h3>
+        <ul>
+          <li>Home / Landing Page</li>
+          <li>User Dashboard / Section</li>
+          <li>Materials Section</li>
+          <li>Business Card Page</li>
+          <li>Contact Page (with form)</li>
+          <li>Privacy Policy (static + formatted)</li>
+          <li>User Agreement (static + formatted)</li>
+          <li>Admin Dashboard</li>
+          <li>Materials Management (admin)</li>
+          <li>User / Access Management (admin)</li>
+          <li>
+            Full i18n implementation (language selector, translation files)
+          </li>
+          <li>Modern UI/UX, form handling, responsive layouts</li>
+        </ul>
+
+        <h3>Backend Development & Infrastructure</h3>
+        <ul>
+          <li>Database design & implementation</li>
+          <li>Secure file/document storage</li>
+          <li>RESTful APIs for all features</li>
+          <li>Authentication & authorization system</li>
+          <li>Admin route protection</li>
+          <li>Frontend ↔ Backend integration</li>
+          <li>Deployment support to your existing hosting/server</li>
+        </ul> -->
+
+        <h2>2. Cost Summary (Fixed Price – USD)</h2>
+        <table>
+          <tr>
+            <th>Description</th>
+            <th style="text-align: right">Amount (USD)</th>
+          </tr>
+          <tr>
+            <td>
+              Complete Development & Delivery<br /><small
+                >(Frontend 10 pages + multilingual, Backend, Database, APIs,
+                Auth, Admin, Testing, Handover)</small
+              >
+            </td>
+            <td style="text-align: right; font-weight: 600">300</td>
+          </tr>
+          <tr class="total-row">
+            <td>Grand Total</td>
+            <td style="text-align: right">$300</td>
+          </tr>
+        </table>
+
+        <div class="payment-schedule">
+          <h3>Payment Schedule</h3>
+          <ul>
+            <li>
+              <strong>40% ($120)</strong> – Upfront / upon project kick-off and
+              after initial design/wireframe approval
+            </li>
+            <li>
+              <strong>60% ($180)</strong> – Upon final delivery, successful
+              testing, full integration, and go-live
+            </li>
+          </ul>
+        </div>
+        <!-- 
+        <h2>4. Project Timeline (4 Weeks – Guaranteed)</h2>
+        <ul>
+          <li>
+            <strong>Week 1:</strong> Requirements, sitemap/wireframes, UI design
+            & approval
+          </li>
+          <li>
+            <strong>Week 2:</strong> Frontend development (all 10 pages +
+            multilingual + forms)
+          </li>
+          <li>
+            <strong>Week 3:</strong> Backend, APIs, database, authentication,
+            integration
+          </li>
+          <li>
+            <strong>Week 4:</strong> Testing, bug fixes, optimizations, client
+            review, deployment & handover
+          </li>
+        </ul> -->
+        <p>
+          <strong>Start Date:</strong> [Insert agreed start date]<br />
+          <strong>Estimated Delivery:</strong> Exactly 5 days later
+        </p>
+
+        <h2>5. Terms & Conditions</h2>
+        <ul style="font-size: 0.98rem">
+          <li>
+            All prices in <strong>United States Dollars (USD)</strong> — fixed
+            for the defined scope.
+          </li>
+          <li>
+            Scope changes after approval will be handled via separate change
+            requests.
+          </li>
+          <li>
+            Full source code & project ownership transfer upon final payment.
+          </li>
+          <li>
+            30 days free post-launch bug-fix support (original scope only).
+          </li>
+          <li>
+            Client to provide necessary content (texts, images, translations) in
+            a timely manner.
+          </li>
+        </ul>
+
+        <div class="signature-section">
+          <div class="signature-box">
+            <div class="signature-line"></div>
+            <div class="signature-label">Client Acceptance</div>
+            <div class="signature-name">[Client Name / Company]</div>
+            <div class="signature-date"></div>
+            <div class="signature-label" style="margin-top: 5px">
+              Date Signed
+            </div>
+          </div>
+          <div class="signature-box">
+            <div class="signature-line"></div>
+            <div class="signature-label">Service Provider Acceptance</div>
+            <div class="signature-name">
+              Bamisile – Professional Web Developer
+            </div>
+            <div class="signature-date"></div>
+            <div class="signature-label" style="margin-top: 5px">
+              Date Signed
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p style="text-align: center; margin: 0">
+          Thank you for considering this proposal.<br />
+          Looking forward to building a high-quality solution for you.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
