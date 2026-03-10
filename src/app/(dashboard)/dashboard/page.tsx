@@ -18,7 +18,7 @@ import {
   X,
 } from "lucide-react";
 import Image from "next/image";
-import { useAuthStore, SignupData, LoanData } from "@/lib/store";
+import { useAuthStore, SignupData } from "@/lib/store";
 import { useRouter } from "next/navigation";
 import { Liveness } from "@/components/Logo";
 
@@ -29,7 +29,7 @@ const DashboardPage = () => {
   const [showKYC, setShowKYC] = useState(false);
   const [activeStepId, setActiveStepId] = useState("bvn");
   const [bvnInput, setBvnInput] = useState(signupData?.kycData?.bvn || "");
-
+  console.log({ loanData });
   const userName =
     signupData.firstName && signupData.lastName
       ? `${signupData.firstName} ${signupData.lastName}`
@@ -415,11 +415,7 @@ const DashboardPage = () => {
 
           <button
             onClick={() =>
-              router.push(
-                loanData.status === "pending"
-                  ? "/loans?flow=repayment"
-                  : "/loans",
-              )
+              router.push(loanData.status === "pending" ? "/payment" : "/loans")
             }
             className="bg-[#FF8A00] text-white px-6 py-3 rounded-xl font-semibold flex items-center gap-2 hover:bg-[#E67C00] transition-colors group mt-4">
             {loanData.status === "pending" ? "Set up payment" : "Request Loan"}
@@ -452,11 +448,7 @@ const DashboardPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <button
             onClick={() =>
-              router.push(
-                loanData.status === "pending"
-                  ? "/loans?flow=repayment"
-                  : "/loans",
-              )
+              router.push(loanData.status === "pending" ? "/payment" : "/loans")
             }
             className="bg-[#FFF4E5] p-6 rounded-2xl flex items-center gap-4 hover:shadow-md transition-all group border border-transparent hover:border-[#FFE1CC]">
             <div className="bg-white p-3 rounded-full shadow-sm">

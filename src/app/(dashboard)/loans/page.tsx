@@ -11,7 +11,7 @@ import {
   FileText,
   X,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/store";
 
 const LoansPage = () => {
@@ -22,6 +22,7 @@ const LoansPage = () => {
     "request" | "summary" | "address"
   >("request");
   const [isProcessing, setIsProcessing] = useState(false);
+console.log({loanData})
 
   const handleRequestProceed = () => {
     setIsProcessing(true);

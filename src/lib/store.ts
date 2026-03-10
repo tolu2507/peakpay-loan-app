@@ -79,6 +79,8 @@ interface AuthState {
   setLoanData: (data: Partial<LoanData>) => void;
   resetSignupData: () => void;
   logout: () => void;
+  modal: boolean;
+  setModal: (data: boolean) => void;
 }
 
 const initialSignupData: SignupData = {
@@ -146,6 +148,8 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
       signupData: { ...initialSignupData },
       loanData: { ...initialLoanData },
+      modal: false,
+      setModal: (state) => set({ modal: state }),
       setAuth: (user, token) => set({ user, token, isAuthenticated: true }),
       setSignupData: (data) =>
         set((state) => ({
