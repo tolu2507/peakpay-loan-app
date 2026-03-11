@@ -7,7 +7,7 @@ export const Modal = ({ children }: { children: ReactNode }) => {
   return (
     modal && (
       <div
-        onClick={() => setModal(false)}
+        // onClick={() => setModal(false)}
         className="absolute inset-0 bg-black flex flex-row justify-center items-center">
         {children}
       </div>

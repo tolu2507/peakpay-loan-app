@@ -415,10 +415,20 @@ const DashboardPage = () => {
 
           <button
             onClick={() =>
-              router.push(loanData.status === "pending" ? "/payment" : "/loans")
+              router.push(
+                loanData.status === "pending"
+                  ? "/payment"
+                  : loanData.status === "approved"
+                    ? "/manage"
+                    : "/loans",
+              )
             }
             className="bg-[#FF8A00] text-white px-6 py-3 rounded-xl font-semibold flex items-center gap-2 hover:bg-[#E67C00] transition-colors group mt-4">
-            {loanData.status === "pending" ? "Set up payment" : "Request Loan"}
+            {loanData.status === "pending"
+              ? "Set up payment"
+              : loanData.status === "approved"
+                ? "Manage Loan"
+                : "Request Loan"}
             <ArrowRight
               size={20}
               className="group-hover:translate-x-1 transition-transform"
@@ -450,21 +460,45 @@ const DashboardPage = () => {
             onClick={() =>
               router.push(loanData.status === "pending" ? "/payment" : "/loans")
             }
+            disabled={loanData.status === "approved"}
             className="bg-[#FFF4E5] p-6 rounded-2xl flex items-center gap-4 hover:shadow-md transition-all group border border-transparent hover:border-[#FFE1CC]">
             <div className="bg-white p-3 rounded-full shadow-sm">
               <FileText size={24} className="text-[#FF8A00]" />
             </div>
-            <span className="font-semibold text-gray-700">
+            <span
+              className={`font-semibold ${
+                loanData.status === "approved"
+                  ? "text-[#F3F4F6]"
+                  : "text-[#606060]"
+              }`}>
               {loanData.status === "pending"
                 ? "Set up payment"
                 : "Request Loan"}
             </span>
           </button>
-          <button className="bg-[#FFF4E5] p-6 rounded-2xl flex items-center gap-4 hover:shadow-md transition-all group border border-transparent hover:border-[#FFE1CC]">
+          <button
+            onClick={() =>
+              router.push(
+                loanData.status === "pending"
+                  ? "/payment"
+                  : loanData.status === "approved"
+                    ? "/manage"
+                    : "/loans",
+              )
+            }
+            disabled={loanData.status !== "approved"}
+            className="bg-[#FFF4E5] p-6 rounded-2xl flex items-center gap-4 hover:shadow-md transition-all group border border-transparent hover:border-[#FFE1CC]">
             <div className="bg-white p-3 rounded-full shadow-sm">
               <LayoutGrid size={24} className="text-[#FF8A00]" />
             </div>
-            <span className="font-semibold text-gray-700">Manage Loan</span>
+            <span
+              className={`font-semibold ${
+                loanData.status === "approved"
+                  ? "text-[#606060]"
+                  : "text-[#F3F4F6]"
+              }`}>
+              Manage Loan
+            </span>
           </button>
         </div>
       </section>

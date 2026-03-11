@@ -199,7 +199,7 @@ const LoansPage = () => {
             Processing
           </div>
         </div> */}
-        {/* <div className="bg-white py-[30px] overflow-hidden px-[20px] rounded-[16px] flex-col flex gap-5 justify-center items-center w-[380px]">
+        <div className="bg-white py-[30px] overflow-hidden px-[20px] rounded-[16px] flex-col flex gap-5 justify-center items-center w-[380px]">
           <Question />
           <p className="text-semibold text-[16px]">Enter Transaction Pin </p>
           <div className="flex justify-start gap-4">
@@ -219,12 +219,15 @@ const LoansPage = () => {
             onClick={() => {
               // setShow(true);
               // onProceed();
+              setLoanData({ status: "approved" });
+              setModal(false);
+              router.push("/dashboard");
             }}
             disabled={!isComplete}
             className="w-full bg-[#FF8A00] hover:bg-[#E67C00] disabled:bg-gray-300 text-white font-semibold py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
             Proceed
           </button>
-        </div> */}
+        </div>
         {/* <div className="bg-white py-[30px] overflow-hidden px-[20px] rounded-[16px] flex-col flex gap-5">
           <p className="text-semibold text-[14px]">
             Rate your loan application process{" "}
@@ -271,7 +274,7 @@ const LoansPage = () => {
             to the best of our abilities.
           </p>
         </div> */}
-        <div className="bg-white py-[30px] overflow-hidden px-[20px] rounded-[16px] flex-col flex gap-4 justify-center items-center w-[380px]">
+        {/* <div className="bg-white py-[30px] overflow-hidden px-[20px] rounded-[16px] flex-col flex gap-4 justify-center items-center w-[380px]">
           <SmallCongratulations/>
           <p className="font-bold text-center text-[14px] leading-[18px]">
             Congratulations
@@ -280,7 +283,7 @@ const LoansPage = () => {
             We have credited ₦1,000,000 to your wallet. You can transfer the
             funds from your wallet to any account.
           </p>
-        </div>
+        </div> */}
       </Modal>
     </div>
   );
