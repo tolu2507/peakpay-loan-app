@@ -31,23 +31,22 @@ import {
 import { Modal } from "@/components/modal";
 
 const LoansPage = () => {
-  const { signupData, loanData, setLoanData, setModal } = useAuthStore();
+  const { signupData, loanData, setLoanData, setModal, manageFlowData, setManageFlowData } = useAuthStore();
   const router = useRouter();
   const userName = signupData.firstName + " " + signupData.lastName;
-  const [consented, setConsented] = useState(false);
-  const [pin, setPin] = useState(["", "", "", ""]);
-  // const [confirmPin, setConfirmPin] = useState(["", "", "", ""]);
-  const isComplete = pin.every((v) => v !== "");
+  
+  const isComplete = manageFlowData.pin.every((v) => v !== "");
+  
   const handlePinChange = (val: string, index: number) => {
     if (val.length > 1) val = val[val.length - 1];
 
-    const newPin = [...pin];
+    const newPin = [...manageFlowData.pin];
     newPin[index] = val;
-    setPin(newPin);
+    setManageFlowData({ pin: newPin });
     if (val && index < 3) document.getElementById(`pin-${index + 1}`)?.focus();
   };
+  
   const rate = ["Poor", "Fair", "Okay", "Good", "Very Good"];
-  const [rateselected, setRateSelected] = useState({ rate: "", index: -1 });
 
   return (
     <div className="space-y-6 pb-12">
@@ -95,7 +94,7 @@ const LoansPage = () => {
         </div>
       </div>
       <Modal>
-        {/* <div className="bg-white py-[34px] overflow-hidden px-[30px] rounded-[16px] w-[590px] max-h-[700px]">
+        <div className="bg-white py-[34px] overflow-hidden px-[30px] rounded-[16px] w-[590px] max-h-[700px]">
           <h2 className="font-semibold text-xl">Loan offer letter</h2>
           <div className="my-2">
             <p className="text-[11px] leading-[14px]">
@@ -156,143 +155,23 @@ const LoansPage = () => {
                 Payment method: <p className="text-[#FF8A00]">Card</p>
               </li>
             </ul>
-            <div className="my-5 z-50">
-              <label className="flex items-center gap-3 cursor-pointer group">
-                <input
-                  type="checkbox"
-                  checked={consented}
-                  onChange={(e) => setConsented(e.target.checked)}
-                  className="mt-1 w-4 h-4 rounded border-gray-300 text-[#FF8A00] focus:ring-[#FF8A00]"
-                />
-                <span className="text-xs text-gray-600 mt-1">
-                  I hereby accept the Terms and Conditions of this offer
-                </span>
-              </label>
-            </div>
           </div>
           <div className="flex flex-row gap-2 mt-10">
             <button
-              onClick={()=>setModal(false)}
-              className="w-full bg-[transparent] disabled:bg-gray-300 text-[#FF8A00] font-semibold py-4 transition-all flex items-center justify-center gap-2">
-              Decline
-            </button>
-            <button
-              onClick={()=>{}}
-              disabled={!consented}
+              onClick={() => setModal(false)}
               className="w-full bg-[#FF8A00] hover:bg-[#E67C00] disabled:bg-gray-300 text-white font-normal py-4 rounded-xl transition-all flex items-center justify-center gap-2">
-              Accept
+              Continue
             </button>
           </div>
         </div>
-        <div className="bg-white py-[30px] overflow-hidden px-[20px] rounded-[16px] flex-col flex gap-5 justify-center items-center w-[380px]">
-          <div className="w-20 h-20">
-            <ProcessingLogo />
-          </div>
-          <p className="font-semibold text-[20px] text-black">Loan Tip 101</p>
-          <p className="font-normal text-center text-[14px] leading-[20px] text-black">
-            Do you know that paying your loans on time can increase your loan
-            offers and help you get better interest rates next time? Timely
-            repayments show that you are reliable and opens the door for more
-            flexible options.
-          </p>
-          <div className="text-center flex items-center gap-1 mt-3 text-sm font-semibold">
-            <SmallProcessing />
-            Processing
-          </div>
-        </div> */}
-        <div className="bg-white py-[30px] overflow-hidden px-[20px] rounded-[16px] flex-col flex gap-5 justify-center items-center w-[380px]">
-          <Question />
-          <p className="text-semibold text-[16px]">Enter Transaction Pin </p>
-          <div className="flex justify-start gap-4">
-            {pin.map((v, i) => (
-              <input
-                key={i}
-                id={`pin-${i}`}
-                type="password"
-                value={v}
-                onChange={(e) => handlePinChange(e.target.value, i)}
-                className="w-12 h-14 border border-gray-100 bg-[#FBFBFB] rounded-xl text-center text-xl font-semibold outline-none focus:border-[#FF8A00]"
-                maxLength={1}
-              />
-            ))}
-          </div>
-          <button
-            onClick={() => {
-              // setShow(true);
-              // onProceed();
-              setLoanData({ status: "approved" });
-              setModal(false);
-              router.push("/dashboard");
-            }}
-            disabled={!isComplete}
-            className="w-full bg-[#FF8A00] hover:bg-[#E67C00] disabled:bg-gray-300 text-white font-semibold py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
-            Proceed
-          </button>
-        </div>
-        {/* <div className="bg-white py-[30px] overflow-hidden px-[20px] rounded-[16px] flex-col flex gap-5">
-          <p className="text-semibold text-[14px]">
-            Rate your loan application process{" "}
-          </p>
-          <div className="flex justify-start gap-8">
-            {rate.map((v, i) => (
-              <div
-                onClick={() => setRateSelected({ rate: v, index: i })}
-                key={v + i}
-                className="flex flex-col gap-1 justify-center items-center">
-                {rateselected.index < i ? <StarIcon /> : <FilledStartIcon />}
-                <p className="text-[10px]">{v}</p>
-              </div>
-            ))}
-          </div>
-          <div>
-            <p className="text-semibold text-[14px] mb-2">
-              Tell us a bit about your experience
-            </p>
-            <input
-              className="w-full px-3 border rounded-[16px] border-[#E5E7EB] h-[56px]"
-              type="text"
-              name=""
-              id=""
-            />
-          </div>
-          <button
-            onClick={() => {
-              // setShow(true);
-              // onProceed();
-            }}
-            disabled={rateselected.rate ? false : true}
-            className="w-full bg-[#FF8A00] hover:bg-[#E67C00] disabled:bg-gray-300 text-white font-semibold py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
-            Submit
-          </button>
-        </div> */}
-        {/* <div className="bg-white py-[30px] overflow-hidden px-[20px] rounded-[16px] flex-col flex gap-4 justify-center items-center w-[380px]">
-          <CheckedIcons />
-          <p className="font-bold text-center text-[14px] leading-[18px]">
-            Feedback received, thank you!
-          </p>
-          <p className="font-normal text-center leading-[14px] text-[11px]">
-            We will continue to serve you with best loans and investments offers
-            to the best of our abilities.
-          </p>
-        </div> */}
-        {/* <div className="bg-white py-[30px] overflow-hidden px-[20px] rounded-[16px] flex-col flex gap-4 justify-center items-center w-[380px]">
-          <SmallCongratulations/>
-          <p className="font-bold text-center text-[14px] leading-[18px]">
-            Congratulations
-          </p>
-          <p className="font-normal text-center leading-[16px] text-[11px] px-10">
-            We have credited ₦1,000,000 to your wallet. You can transfer the
-            funds from your wallet to any account.
-          </p>
-        </div> */}
-      </Modal>
+        </Modal>
     </div>
   );
 };
 
 const LoanManageView = ({ onProceed }: { onProceed: () => void }) => {
   const router = useRouter();
-  const [show, setShow] = useState(true);
+  const { manageFlowData, setManageFlowData } = useAuthStore();
 
   return (
     <div className="bg-white rounded-3xl border border-gray-100 p-5 max-w-[608px]">
@@ -323,252 +202,95 @@ const LoanManageView = ({ onProceed }: { onProceed: () => void }) => {
           </p>
         </div>
         <div className="flex flex-col gap-4 mt-4">
-          <button
-            onClick={() => {
-              setShow(true);
-              onProceed();
-            }}
-            className="w-full border-[#FF8A00] border bg-[#F3F4F6] hover:bg-[#E67C00] disabled:bg-gray-300 text-[#1E1E1E] text-[14px] font-semibold h-[50px] rounded-xl transition-all flex items-center justify-center gap-2">
+          <button className="w-full border-[#FF8A00] border bg-[#F3F4F6] text-[#1E1E1E] text-[14px] font-semibold h-[50px] rounded-xl transition-all flex items-center justify-center gap-2">
             <Alert />
             Next payment is due on the 25th of Sep, 2026
           </button>
           <button
-            onClick={() => {
-              setShow(true);
-              onProceed();
-            }}
+            onClick={() => router.push("/repayment")}
             className="w-full bg-[#FF8A00] hover:bg-[#E67C00] disabled:bg-gray-300 text-white font-semibold h-[50px] rounded-xl transition-all flex items-center justify-center gap-2 text-[14px] ">
             Make Payment
           </button>
-        </div>
-        {show ? (
-          <div className="space-y-3">
-            <div>
-              <SummaryCard title={"Loan amount"} value={"₦ 1,000,000"} />
-              <SummaryCard title={"Tenor"} value={"6 months"} />
-              <SummaryCard title={"Interest rate"} value={"10%"} />
-              <SummaryCard title={"Management fees"} value={"₦ 2,000"} />
-              <SummaryCard title={"Credit life insuarance"} value={"₦ 2,000"} />
-              <SummaryCard
-                title={"Total repayment amount"}
-                value={"₦ 1,500,000"}
-              />
-              <SummaryCard title={"Monthly repayment"} value={"₦ 100,000"} />
-              <SummaryCard title={"Total number of payments"} value={"10"} />
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-[16px] font-semibold text-gray-900">
-                Repayment Schedule
-              </h3>
-              <div>
-                <SummaryCards
-                  title={"1st repayment"}
-                  value={"₦ 100,000"}
-                  date={"3 Mar, 2026"}
-                  due={true}
-                />
-                <SummaryCards
-                  title={"2nd repayment"}
-                  value={"₦ 100,000"}
-                  date={"3 Apr, 2026"}
-                  due={false}
-                />
-                <SummaryCards
-                  title={"3rd repayment"}
-                  value={"₦ 100,000"}
-                  date={"3 May, 2026"}
-                  due={false}
-                />
-                <SummaryCards
-                  title={"4th repayment"}
-                  value={"₦ 100,000"}
-                  date={"3 Jun, 2026"}
-                  due={false}
-                />
-                <SummaryCards
-                  title={"5th repayment"}
-                  value={"₦ 100,000"}
-                  date={"3 Jul, 2026"}
-                  due={false}
-                />
-              </div>
-            </div>
+          <div className="flex flex-row my-4 justify-between items-center">
+            <p
+              onClick={() =>
+                setManageFlowData({
+                  showSchedule: !manageFlowData.showSchedule,
+                })
+              }
+              className="text-[12px] cursor-pointer leading-[14px] text-[#1E9F85] font-medium underline">
+              View Repayment Schedule
+            </p>
+            <p
+              onClick={() => {
+                onProceed();
+              }}
+              className="text-[12px] cursor-pointer leading-[14px] text-[#606060] font-medium underline">
+              View Offer Letter
+            </p>
           </div>
-        ) : (
-          <div>
+        </div>
+        {manageFlowData.showSchedule && (
+          <div className="space-y-2">
+            <h3 className="text-[16px] font-semibold text-gray-900">
+              Repayment Schedule
+            </h3>
             <div>
-              <div className="flex-col my-10 flex justify-center items-center gap-2">
-                <div className="w-[80px] h-[80px]">
-                  <Close />
-                </div>
-              </div>
-              <div className="gap-[10px] flex-col flex mt-[20px]">
-                <p className="text-[#606060] font-semibold text-[16px] leading-[22px]">
-                  Why leave now?
-                </p>
-                <p className="text-[#606060] font-normal text-[12px] leading-[22px]">
-                  You are just a few clicks from getting your loan disbursed.
-                  You can review your amount and tenure options to find the
-                  perfect fit for your needs!
-                </p>
-              </div>
+              <SummaryCards
+                title={7}
+                value={"₦ 100,000"}
+                date={"3 Mar, 2026"}
+              />
+              <SummaryCards
+                title={10}
+                value={"₦ 100,000"}
+                date={"3 Apr, 2026"}
+              />
+              <SummaryCards
+                title={13}
+                value={"₦ 100,000"}
+                date={"3 May, 2026"}
+              />
+              <SummaryCards
+                title={16}
+                value={"₦ 100,000"}
+                date={"3 Jun, 2026"}
+              />
+              <SummaryCards
+                title={19}
+                value={"₦ 100,000"}
+                date={"3 Jul, 2026"}
+              />
             </div>
           </div>
         )}
-
-        <div className="flex flex-row gap-2 mt-3">
-          <button
-            onClick={
-              show ? () => setShow(false) : () => router.push("/dashboard")
-            }
-            className="w-full bg-[transparent] disabled:bg-gray-300 text-[#FF8A00] font-semibold py-4 transition-all flex items-center justify-center gap-2">
-            {show ? "Cancel" : "Return to home"}
-          </button>
-          <button
-            onClick={() => {
-              setShow(true);
-              onProceed();
-            }}
-            className="w-full bg-[#FF8A00] hover:bg-[#E67C00] disabled:bg-gray-300 text-white font-semibold py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
-            {show ? "View offer letter" : "Review loan details"}
-          </button>
-        </div>
       </div>
     </div>
   );
 };
 
-const LoanRequestView = ({ onProceed }: { onProceed: () => void }) => {
-  const router = useRouter();
-  const [show, setShow] = useState(true);
-
-  return (
-    <div className="bg-white rounded-3xl border border-gray-100 p-5 max-w-[608px]">
-      <div className="space-y-2">
-        <h2 className="text-[18px] font-semibold text-gray-900">Loan Offer</h2>
-
-        {show ? (
-          <div className="space-y-3">
-            <div>
-              <SummaryCard title={"Loan amount"} value={"₦ 1,000,000"} />
-              <SummaryCard title={"Tenor"} value={"6 months"} />
-              <SummaryCard title={"Interest rate"} value={"10%"} />
-              <SummaryCard title={"Management fees"} value={"₦ 2,000"} />
-              <SummaryCard title={"Credit life insuarance"} value={"₦ 2,000"} />
-              <SummaryCard
-                title={"Total repayment amount"}
-                value={"₦ 1,500,000"}
-              />
-              <SummaryCard title={"Monthly repayment"} value={"₦ 100,000"} />
-              <SummaryCard title={"Total number of payments"} value={"10"} />
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-[16px] font-semibold text-gray-900">
-                Repayment Schedule
-              </h3>
-              <div>
-                <SummaryCards
-                  title={"1st repayment"}
-                  value={"₦ 100,000"}
-                  date={"3 Mar, 2026"}
-                  due={true}
-                />
-                <SummaryCards
-                  title={"2nd repayment"}
-                  value={"₦ 100,000"}
-                  date={"3 Apr, 2026"}
-                  due={false}
-                />
-                <SummaryCards
-                  title={"3rd repayment"}
-                  value={"₦ 100,000"}
-                  date={"3 May, 2026"}
-                  due={false}
-                />
-                <SummaryCards
-                  title={"4th repayment"}
-                  value={"₦ 100,000"}
-                  date={"3 Jun, 2026"}
-                  due={false}
-                />
-                <SummaryCards
-                  title={"5th repayment"}
-                  value={"₦ 100,000"}
-                  date={"3 Jul, 2026"}
-                  due={false}
-                />
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div>
-            <div>
-              <div className="flex-col my-10 flex justify-center items-center gap-2">
-                <div className="w-[80px] h-[80px]">
-                  <Close />
-                </div>
-              </div>
-              <div className="gap-[10px] flex-col flex mt-[20px]">
-                <p className="text-[#606060] font-semibold text-[16px] leading-[22px]">
-                  Why leave now?
-                </p>
-                <p className="text-[#606060] font-normal text-[12px] leading-[22px]">
-                  You are just a few clicks from getting your loan disbursed.
-                  You can review your amount and tenure options to find the
-                  perfect fit for your needs!
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div className="flex flex-row gap-2 mt-3">
-          <button
-            onClick={
-              show ? () => setShow(false) : () => router.push("/dashboard")
-            }
-            className="w-full bg-[transparent] disabled:bg-gray-300 text-[#FF8A00] font-semibold py-4 transition-all flex items-center justify-center gap-2">
-            {show ? "Cancel" : "Return to home"}
-          </button>
-          <button
-            onClick={() => {
-              setShow(true);
-              onProceed();
-            }}
-            className="w-full bg-[#FF8A00] hover:bg-[#E67C00] disabled:bg-gray-300 text-white font-semibold py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
-            {show ? "View offer letter" : "Review loan details"}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export default LoansPage;
 
-const SummaryCard = ({ title, value }: { title: string; value: string }) => (
-  <div className="flex flex-row justify-between items-center border-b py-3">
-    <p className="text-[12px]">{title}</p>
-    <p className="text-[12px] font-semibold">{value}</p>
-  </div>
-);
 const SummaryCards = ({
   title,
   value,
-  due,
   date,
 }: {
-  title: string;
+  title: number;
   value: string;
   date: string;
-  due: boolean;
 }) => (
-  <div className="flex flex-row justify-between items-center border-b py-2">
-    <p className="text-[12px] font-normal text-left">{title}</p>
-    <p className="text-[12px] font-normal text-start">{value}</p>
-    <p className="text-[12px] font-normal text-start">{date}</p>
-    <p className="text-[12px] font-normal text-end">
-      {due ? "Due" : "Not Due"}
-    </p>
+  <div className="flex flex-row justify-between items-center bg-[#F3F4F6] py-2 px-3 rounded-[12px] mb-3">
+    <div className="flex flex-col gap-1">
+      <p className="text-[12px] font-normal text-left">{value}</p>
+      <p className="text-[12px] font-semibold text-start">{date}</p>
+    </div>
+    <div className="flex flex-col gap-1 justify-end items-end">
+      <p className="text-[12px] font-normal text-start">Upcoming</p>
+      <p className="text-[12px] font-semibold text-end text-[#E67C00]">
+        {title} days to repayment
+      </p>
+    </div>
   </div>
 );

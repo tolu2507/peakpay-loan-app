@@ -23,12 +23,8 @@ import { useRouter } from "next/navigation";
 import { Liveness } from "@/components/Logo";
 
 const DashboardPage = () => {
-  const { signupData, setKYCData, loanData } = useAuthStore();
+  const { signupData, setKYCData, loanData, kycFlowData, setKYCFlowData, showBalance, setShowBalance } = useAuthStore();
   const router = useRouter();
-  const [showBalance, setShowBalance] = useState(false);
-  const [showKYC, setShowKYC] = useState(false);
-  const [activeStepId, setActiveStepId] = useState("bvn");
-  const [bvnInput, setBvnInput] = useState(signupData?.kycData?.bvn || "");
   console.log({ loanData });
   const userName =
     signupData.firstName && signupData.lastName
@@ -76,15 +72,15 @@ const DashboardPage = () => {
   const kycCompleted = kycSteps.every((step) => step.completed);
 
   const handleBVNProceed = () => {
-    if (bvnInput.length >= 11) {
-      setKYCData({ bvn: bvnInput });
-      setActiveStepId("liveness");
+    if (kycFlowData.bvnInput.length >= 11) {
+      setKYCData({ bvn: kycFlowData.bvnInput });
+      setKYCFlowData({ activeStepId: "liveness" });
     }
   };
 
   const handleLivenessComplete = () => {
     setKYCData({ livenessCompleted: true });
-    setActiveStepId("nextOfKin");
+    setKYCFlowData({ activeStepId: "nextOfKin" });
   };
 
   const handleNextOfKinComplete = (data: {
@@ -100,7 +96,7 @@ const DashboardPage = () => {
       nextOfKinRelation: data.relation,
       nextOfKinCompleted: true,
     });
-    setActiveStepId("employment");
+    setKYCFlowData({ activeStepId: "employment" });
   };
 
   const handleEmploymentComplete = (data: Partial<SignupData["kycData"]>) => {
@@ -108,7 +104,7 @@ const DashboardPage = () => {
       ...data,
       employmentCompleted: true,
     });
-    setActiveStepId("pep");
+    setKYCFlowData({ activeStepId: "pep" });
   };
 
   const handlePEPComplete = (isPEP: boolean) => {
@@ -116,7 +112,7 @@ const DashboardPage = () => {
       isPEP,
       pepCompleted: true,
     });
-    setActiveStepId("bankDetails");
+    setKYCFlowData({ activeStepId: "bankDetails" });
   };
 
   const handleBankDetailsComplete = (data: Partial<SignupData["kycData"]>) => {
@@ -124,7 +120,7 @@ const DashboardPage = () => {
       ...data,
       bankDetailsCompleted: true,
     });
-    setActiveStepId("transactionPin");
+    setKYCFlowData({ activeStepId: "transactionPin" });
   };
 
   const handlePinComplete = (pin: string) => {
@@ -132,10 +128,10 @@ const DashboardPage = () => {
       transactionPin: pin,
       transactionPinCompleted: true,
     });
-    setShowKYC(false); // End KYC flow
+    setKYCFlowData({ showKYC: false }); // End KYC flow
   };
 
-  if (showKYC) {
+  if (kycFlowData.showKYC) {
     return (
       <div className="space-y-6 pb-12">
         {/* Top Header */}
@@ -180,7 +176,7 @@ const DashboardPage = () => {
           <div className="w-full md:w-1/3 bg-white rounded-2xl p-8 border border-gray-100 h-fit">
             <div className="space-y-8 relative">
               {kycSteps.map((step, idx) => {
-                const isActive = step.id === activeStepId;
+                const isActive = step.id === kycFlowData.activeStepId;
                 const isPreviousCompleted =
                   idx === 0 || kycSteps[idx - 1].completed;
                 return (
@@ -189,7 +185,7 @@ const DashboardPage = () => {
                     className={`flex items-center gap-4 relative z-10 ${isActive || isPreviousCompleted ? "cursor-pointer" : "opacity-50"}`}
                     onClick={() => {
                       if (isPreviousCompleted || step.completed) {
-                        setActiveStepId(step.id);
+                        setKYCFlowData({ activeStepId: step.id });
                       }
                     }}>
                     <div className="flex flex-col items-center">
@@ -234,7 +230,7 @@ const DashboardPage = () => {
 
           {/* Form Content Area */}
           <div className="flex-1 bg-white rounded-2xl p-10 border-opacity-50">
-            {activeStepId === "bvn" && (
+            {kycFlowData.activeStepId === "bvn" && (
               <div className=" mx-auto space-y-6">
                 <h2 className="text-2xl font-bold text-gray-900">
                   Please enter your BVN
@@ -246,8 +242,8 @@ const DashboardPage = () => {
                   </label>
                   <input
                     type="text"
-                    value={bvnInput}
-                    onChange={(e) => setBvnInput(e.target.value)}
+                    value={kycFlowData.bvnInput}
+                    onChange={(e) => setKYCFlowData({ bvnInput: e.target.value })}
                     className="w-full bg-[#FBFBFB] border border-gray-100 rounded-xl p-4 outline-none focus:border-[#FF8A00] transition-all"
                     placeholder="Enter 11-digit BVN"
                     maxLength={11}
@@ -277,7 +273,7 @@ const DashboardPage = () => {
                 <div className="pt-4">
                   <button
                     onClick={handleBVNProceed}
-                    disabled={bvnInput.length < 11}
+                    disabled={kycFlowData.bvnInput.length < 11}
                     className="w-full bg-[#FF8A00] hover:bg-[#E67C00] disabled:bg-gray-300 text-white font-bold py-4 rounded-xl shadow-lg shadow-orange-100 transition-all">
                     Proceed
                   </button>
@@ -285,44 +281,44 @@ const DashboardPage = () => {
               </div>
             )}
 
-            {activeStepId === "liveness" && (
+            {kycFlowData.activeStepId === "liveness" && (
               <LivenessView onComplete={handleLivenessComplete} />
             )}
 
-            {activeStepId === "nextOfKin" && (
+            {kycFlowData.activeStepId === "nextOfKin" && (
               <NextOfKinView onComplete={handleNextOfKinComplete} />
             )}
 
-            {activeStepId === "employment" && (
+            {kycFlowData.activeStepId === "employment" && (
               <EmploymentDetailsView onComplete={handleEmploymentComplete} />
             )}
 
-            {activeStepId === "pep" && (
+            {kycFlowData.activeStepId === "pep" && (
               <PEPDetailsView onComplete={handlePEPComplete} />
             )}
 
-            {activeStepId === "bankDetails" && (
+            {kycFlowData.activeStepId === "bankDetails" && (
               <AddBankDetailsView onComplete={handleBankDetailsComplete} />
             )}
 
-            {activeStepId === "transactionPin" && (
+            {kycFlowData.activeStepId === "transactionPin" && (
               <CreateTransactionPinView onComplete={handlePinComplete} />
             )}
 
-            {activeStepId !== "bvn" &&
-              activeStepId !== "liveness" &&
-              activeStepId !== "nextOfKin" &&
-              activeStepId !== "employment" &&
-              activeStepId !== "pep" &&
-              activeStepId !== "bankDetails" &&
-              activeStepId !== "transactionPin" && (
+            {kycFlowData.activeStepId !== "bvn" &&
+              kycFlowData.activeStepId !== "liveness" &&
+              kycFlowData.activeStepId !== "nextOfKin" &&
+              kycFlowData.activeStepId !== "employment" &&
+              kycFlowData.activeStepId !== "pep" &&
+              kycFlowData.activeStepId !== "bankDetails" &&
+              kycFlowData.activeStepId !== "transactionPin" && (
                 <div className="flex flex-col items-center justify-center h-full text-center space-y-4">
                   <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center text-gray-300">
                     <LayoutGrid size={40} />
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-gray-900">
-                      {kycSteps.find((s) => s.id === activeStepId)?.name}
+                      {kycSteps.find((s) => s.id === kycFlowData.activeStepId)?.name}
                     </h3>
                     <p className="text-gray-500 max-w-xs">
                       This step is coming soon. Please complete the other
@@ -330,7 +326,7 @@ const DashboardPage = () => {
                     </p>
                   </div>
                   <button
-                    onClick={() => setActiveStepId("bvn")}
+                    onClick={() => setKYCFlowData({ activeStepId: "bvn" })}
                     className="text-[#FF8A00] font-bold flex items-center gap-2">
                     Go back to BVN <ArrowRight size={18} />
                   </button>
@@ -375,7 +371,7 @@ const DashboardPage = () => {
       {/* KYC Banner - Conditional */}
       {!kycCompleted && (
         <div
-          onClick={() => setShowKYC(true)}
+          onClick={() => setKYCFlowData({ showKYC: true })}
           className="bg-white border border-[#FFD000] rounded-xl p-4 flex items-center gap-3 cursor-pointer hover:bg-yellow-50/30 transition-colors">
           <div className="text-yellow-500">
             <AlertCircle size={20} />
@@ -437,13 +433,13 @@ const DashboardPage = () => {
         </div>
 
         {/* 3D Illustration */}
-        <div className="absolute right-0 top-0 h-full w-1/2 flex items-center justify-end">
+        <div className="absolute right-30 top-0 h-full w-1/2 flex items-center justify-end">
           <div className="relative w-full h-full">
             <Image
-              src="/images/balance-illustration.png"
+              src="/images/money.png"
               alt="Balance Illustration"
               fill
-              className="object-contain object-right transform scale-110 translate-x-10"
+              className="object-cover object-right transform scale-110 translate-x-10"
               priority
             />
           </div>
@@ -466,11 +462,10 @@ const DashboardPage = () => {
               <FileText size={24} className="text-[#FF8A00]" />
             </div>
             <span
-              className={`font-semibold ${
-                loanData.status === "approved"
+              className={`font-semibold ${loanData.status === "approved"
                   ? "text-[#F3F4F6]"
                   : "text-[#606060]"
-              }`}>
+                }`}>
               {loanData.status === "pending"
                 ? "Set up payment"
                 : "Request Loan"}
@@ -492,11 +487,10 @@ const DashboardPage = () => {
               <LayoutGrid size={24} className="text-[#FF8A00]" />
             </div>
             <span
-              className={`font-semibold ${
-                loanData.status === "approved"
+              className={`font-semibold ${loanData.status === "approved"
                   ? "text-[#606060]"
                   : "text-[#F3F4F6]"
-              }`}>
+                }`}>
               Manage Loan
             </span>
           </button>
@@ -521,7 +515,7 @@ const DashboardPage = () => {
           <div className="flex flex-col items-center text-center space-y-4 max-w-[200px]">
             <div className="relative w-48 h-48">
               <Image
-                src="/images/empty-transactions.png"
+                src="/images/empty.png"
                 alt="No transactions"
                 fill
                 className="object-contain"

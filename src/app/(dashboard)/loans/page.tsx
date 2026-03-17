@@ -15,26 +15,20 @@ import { usePathname, useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/store";
 
 const LoansPage = () => {
-  const { signupData, loanData, setLoanData } = useAuthStore();
+  const { signupData, loanData, setLoanData, loanFlowData, setLoanFlowData } = useAuthStore();
   const router = useRouter();
   const userName = signupData.firstName + " " + signupData.lastName;
-  const [activeStep, setActiveStep] = useState<
-    "request" | "summary" | "address"
-  >("request");
-  const [isProcessing, setIsProcessing] = useState(false);
-console.log({loanData})
 
   const handleRequestProceed = () => {
-    setIsProcessing(true);
+    setLoanFlowData({ isProcessing: true });
     // Simulate API call
     setTimeout(() => {
-      setIsProcessing(false);
-      setActiveStep("summary");
+      setLoanFlowData({ isProcessing: false, activeStep: "summary" });
     }, 1500);
   };
 
   const handleSummaryProceed = () => {
-    setActiveStep("address");
+    setLoanFlowData({ activeStep: "address" });
   };
 
   const handleAddressProceed = () => {
@@ -90,13 +84,13 @@ console.log({loanData})
               <div className="flex flex-col items-center gap-1">
                 <div
                   className={`w-5 h-5 rounded-full flex items-center justify-center border-2 ${
-                    activeStep === "request" ||
-                    activeStep === "summary" ||
-                    activeStep === "address"
+                    loanFlowData.activeStep === "request" ||
+                    loanFlowData.activeStep === "summary" ||
+                    loanFlowData.activeStep === "address"
                       ? "border-[#FF8A00] bg-white text-[#FF8A00]"
                       : "border-gray-200"
                   }`}>
-                  {activeStep === "address" ? (
+                  {loanFlowData.activeStep === "address" ? (
                     <CheckCircle2 size={14} />
                   ) : (
                     <div className="w-2 h-2 bg-[#FF8A00] rounded-full" />
@@ -106,7 +100,8 @@ console.log({loanData})
               </div>
               <div
                 className={`text-sm font-semibold transition-colors ${
-                  activeStep === "request" || activeStep === "summary"
+                  loanFlowData.activeStep === "request" ||
+                  loanFlowData.activeStep === "summary"
                     ? "text-gray-900"
                     : "text-gray-400"
                 }`}>
@@ -118,18 +113,20 @@ console.log({loanData})
               <div className="flex flex-col items-center gap-1">
                 <div
                   className={`w-5 h-5 rounded-full flex items-center justify-center border-2 ${
-                    activeStep === "address"
+                    loanFlowData.activeStep === "address"
                       ? "border-[#FF8A00] bg-white text-[#FF8A00]"
                       : "border-gray-200 bg-white"
                   }`}>
-                  {activeStep === "address" && (
+                  {loanFlowData.activeStep === "address" && (
                     <div className="w-2 h-2 bg-[#FF8A00] rounded-full" />
                   )}
                 </div>
               </div>
               <div
                 className={`text-sm font-semibold transition-colors ${
-                  activeStep === "address" ? "text-gray-900" : "text-gray-400"
+                  loanFlowData.activeStep === "address"
+                    ? "text-gray-900"
+                    : "text-gray-400"
                 }`}>
                 Enter address
               </div>
@@ -139,16 +136,16 @@ console.log({loanData})
 
         {/* Right Side: Step Content */}
         <div className="flex-1">
-          {activeStep === "request" && (
+          {loanFlowData.activeStep === "request" && (
             <LoanRequestView
               onProceed={handleRequestProceed}
-              isProcessing={isProcessing}
+              isProcessing={loanFlowData.isProcessing}
             />
           )}
-          {activeStep === "summary" && (
+          {loanFlowData.activeStep === "summary" && (
             <LoanSummaryView onProceed={handleSummaryProceed} />
           )}
-          {activeStep === "address" && (
+          {loanFlowData.activeStep === "address" && (
             <LoanAddressView onProceed={handleAddressProceed} />
           )}
         </div>
