@@ -544,6 +544,8 @@ const DashboardPage = () => {
       </section>
     </div>
   );
+};
+
 const LivenessView = ({ onComplete }: { onComplete: () => void }) => {
   const { submitLiveness } = useKYCStore();
   const [status, setStatus] = useState<

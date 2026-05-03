@@ -3,13 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import "@smileid/web-components/smart-camera-web";
 
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      "selfie-capture-screens": any;
-    }
-  }
-}
+const SelfieCaptureScreens = "selfie-capture-screens" as any;
 
 export interface SmileIdCameraProps {
   onPublish: (detail: any) => void;
@@ -49,10 +43,10 @@ export default function SmileIdCamera({ onPublish, onCancel, onBack }: SmileIdCa
 
   return (
     <div className="w-full h-[600px] bg-white rounded-3xl overflow-hidden relative">
-      <selfie-capture-screens 
+      <SelfieCaptureScreens 
         ref={cameraRef} 
         theme-color="#FF8A00"
-      ></selfie-capture-screens>
+      ></SelfieCaptureScreens>
     </div>
   );
 }
