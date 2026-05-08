@@ -3,7 +3,7 @@ import { useAuthStore } from '../store/useAuthStore';
 import { useGlobalStore } from '../store/useGlobalStore';
 
 const apiClient = axios.create({
-  baseURL: '/api',
+  baseURL: 'https://peakpay-backend-dev.up.railway.app/api',
   timeout: 35000,
   headers: {
     'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ apiClient.interceptors.response.use(
               console.log('Dismiss action triggered! Sending OTP for:', email);
               const { useSignupStore } = require('../store/useSignupStore');
               useSignupStore.getState().setFormField('email', email);
-              
+
               apiClient.post('/otp/send-otp/', {
                 otp_type: 'email',
                 otp_action_type: 'registration',
