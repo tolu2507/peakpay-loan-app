@@ -530,8 +530,8 @@ export default function LandingPage() {
           <div>
             <h4 className={styles.footerTitle}>Legal</h4>
             <div className={styles.footerLinks}>
-              <a href="#">Privacy Policy</a>
-              <a href="#">Terms and Conditions</a>
+              <Link href="/privacy">Privacy Policy</Link>
+              <Link href="/terms">Terms and Conditions</Link>
             </div>
           </div>
         </div>
