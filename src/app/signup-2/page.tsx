@@ -129,9 +129,9 @@ export default function SignupStage2() {
               </label>
               <PhoneInput
                 value={form.phone}
-                dialCode={"+234"} // Default dial code
+                dialCode={form.dialCode || "+234"} // Default dial code
                 onChange={(val) => setFormField("phone", val)}
-                onDialCodeChange={() => { }} // Not handled in current SignupStore
+                onDialCodeChange={(val) => setFormField("dialCode", val)}
               />
             </div>
 

@@ -5,8 +5,10 @@ import Logo, { WhiteLogo } from "@/components/Logo";
 import { ChevronDown } from "lucide-react";
 import PhoneInput from "@/components/PhoneInput";
 import { useSignupStore } from "@/web-portable/store/useSignupStore";
+import { useRouter } from "next/navigation";
 
 export default function OnboardingPage() {
+  const router = useRouter();
   const { form: signupData, setFormField } = useSignupStore();
 
   return (
@@ -67,7 +69,7 @@ export default function OnboardingPage() {
               type="submit"
               onClick={(e) => {
                 e.preventDefault();
-                window.location.href = "/signup-2";
+                router.push("/signup-2");
               }}
               className="w-full bg-[#FF8A00] hover:bg-[#E67C00] text-white font-bold py-4 rounded-xl shadow-lg shadow-orange-100 transition-all hover:scale-[1.01] active:scale-[0.99]">
               Get Started
